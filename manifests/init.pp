@@ -18,14 +18,14 @@
 
 class postgres {
     case $operatingsystem {
-        gentoo: { include postgres::gentoo } 
-        centos: { include postgres::centos } 
         default: { include postgres::base }
     }
 }
 
 class postgres::base {
-    package { 'postgresql':
+    include postgres::client
+
+    package { 'postgresql-server':
         ensure => present,
     }
 
@@ -33,13 +33,13 @@ class postgres::base {
         enable => true,
         ensure => running,
         hasstatus => true,
-        require => Package[postgresql],
+        require => Package[postgresql-server],
     }
 
     # wen want to be sure that this exists
     file{'/var/lib/pgsql/backups':
         ensure => directory,
-        require => Package['postgresql'],
+        require => Package['postgresql-server'],
         owner => postgres, group => postgres, mode => 0700;
     }
 
@@ -79,19 +79,5 @@ class postgres::base {
             require => Package[postgresql-server],
             notify => Service[postgresql],
             owner => postgres, group => postgres, mode => 0600;
-    }
-}
-
-class postgres::gentoo inherits postgres::base {
-    Package['postgresql']{
-        category => 'dev-db',
-    }
-}
-
-class postgres::centos inherits postgres::base {
-	package { [ruby-postgres, postgresql-server]: ensure => installed }
-
-    Service[postgresql]{
-        require +> [ Package[postgresql-server] ],
     }
 }
