@@ -1,5 +1,6 @@
 class postgres::client {
-   package{ ['postgresql','ruby-postgres']: 
+   include ruby::postgres
+   package{'postgresql': 
       ensure => installed,
    }
 }
