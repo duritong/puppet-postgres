@@ -20,12 +20,12 @@ class postgres::base {
     }
 
     file{'/etc/cron.d/pgsql_backup.cron':
-        source => "puppet://$server/postgres/backup/pgsql_backup.cron",
+        source => "puppet://$server/modules/postgres/backup/pgsql_backup.cron",
         require => File['/var/lib/pgsql/backups'],
         owner => root, group => 0, mode => 0600;
     }
     file{'/etc/cron.d/pgsql_vacuum.cron':
-        source => "puppet://$server/postgres/maintenance/pgsql_vacuum.cron",
+        source => "puppet://$server/modules/postgres/maintenance/pgsql_vacuum.cron",
         owner => root, group => 0, mode => 0600;
     }
 
@@ -33,8 +33,8 @@ class postgres::base {
             source => [
                 "puppet://$server/files/postgres/${fqdn}/pg_hba.conf",
                 "puppet://$server/files/postgres/pg_hba.conf",
-                "puppet://$server/postgres/config/pg_hba.conf.${operatingsystem}",
-                "puppet://$server/postgres/config/pg_hba.conf"
+                "puppet://$server/modules/postgres/config/pg_hba.conf.${operatingsystem}",
+                "puppet://$server/modules/postgres/config/pg_hba.conf"
             ],
             ensure => file,
             require => Package[postgresql-server],
@@ -45,8 +45,8 @@ class postgres::base {
             source => [
                 "puppet://$server/files/postgres/${fqdn}/postgresql.conf",
                 "puppet://$server/files/postgres/postgresql.conf",
-                "puppet://$server/postgres/config/postgresql.conf.${operatingsystem}",
-                "puppet://$server/postgres/config/postgresql.conf"
+                "puppet://$server/modules/postgres/config/postgresql.conf.${operatingsystem}",
+                "puppet://$server/modules/postgres/config/postgresql.conf"
             ],
             ensure => file,
             require => Package[postgresql-server],
