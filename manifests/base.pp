@@ -31,8 +31,8 @@ class postgres::base {
 
     file{'/var/lib/pgsql/data/pg_hba.conf':
             source => [
-                "puppet://$server/files/postgres/${fqdn}/pg_hba.conf",
-                "puppet://$server/files/postgres/pg_hba.conf",
+                "puppet://$server/modules/site-postgres/${fqdn}/pg_hba.conf",
+                "puppet://$server/modules/site-postgres/pg_hba.conf",
                 "puppet://$server/modules/postgres/config/pg_hba.conf.${operatingsystem}",
                 "puppet://$server/modules/postgres/config/pg_hba.conf"
             ],
@@ -43,8 +43,8 @@ class postgres::base {
     }
     file{'/var/lib/pgsql/data/postgresql.conf':
             source => [
-                "puppet://$server/files/postgres/${fqdn}/postgresql.conf",
-                "puppet://$server/files/postgres/postgresql.conf",
+                "puppet://$server/modules/site-postgres/${fqdn}/postgresql.conf",
+                "puppet://$server/modules/site-postgres/postgresql.conf",
                 "puppet://$server/modules/postgres/config/postgresql.conf.${operatingsystem}",
                 "puppet://$server/modules/postgres/config/postgresql.conf"
             ],
