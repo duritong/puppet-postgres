@@ -20,21 +20,21 @@ class postgres::base {
     }
 
     file{'/etc/cron.d/pgsql_backup.cron':
-        source => "puppet://$server/modules/postgres/backup/pgsql_backup.cron",
+        source => "puppet:///modules/postgres/backup/pgsql_backup.cron",
         require => File['/var/lib/pgsql/backups'],
         owner => root, group => 0, mode => 0600;
     }
     file{'/etc/cron.d/pgsql_vacuum.cron':
-        source => "puppet://$server/modules/postgres/maintenance/pgsql_vacuum.cron",
+        source => "puppet:///modules/postgres/maintenance/pgsql_vacuum.cron",
         owner => root, group => 0, mode => 0600;
     }
 
     file{'/var/lib/pgsql/data/pg_hba.conf':
             source => [
-                "puppet://$server/modules/site-postgres/${fqdn}/pg_hba.conf",
-                "puppet://$server/modules/site-postgres/pg_hba.conf",
-                "puppet://$server/modules/postgres/config/pg_hba.conf.${operatingsystem}",
-                "puppet://$server/modules/postgres/config/pg_hba.conf"
+                "puppet:///modules/site-postgres/${fqdn}/pg_hba.conf",
+                "puppet:///modules/site-postgres/pg_hba.conf",
+                "puppet:///modules/postgres/config/pg_hba.conf.${operatingsystem}",
+                "puppet:///modules/postgres/config/pg_hba.conf"
             ],
             ensure => file,
             require => Package[postgresql-server],
@@ -43,10 +43,10 @@ class postgres::base {
     }
     file{'/var/lib/pgsql/data/postgresql.conf':
             source => [
-                "puppet://$server/modules/site-postgres/${fqdn}/postgresql.conf",
-                "puppet://$server/modules/site-postgres/postgresql.conf",
-                "puppet://$server/modules/postgres/config/postgresql.conf.${operatingsystem}",
-                "puppet://$server/modules/postgres/config/postgresql.conf"
+                "puppet:///modules/site-postgres/${fqdn}/postgresql.conf",
+                "puppet:///modules/site-postgres/postgresql.conf",
+                "puppet:///modules/postgres/config/postgresql.conf.${operatingsystem}",
+                "puppet:///modules/postgres/config/postgresql.conf"
             ],
             ensure => file,
             require => Package[postgresql-server],
