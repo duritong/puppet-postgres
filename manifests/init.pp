@@ -17,13 +17,13 @@
 #
 
 class postgres {
-    case $operatingsystem {
-        default: { include postgres::base }
-    }
-    if $use_munin {
-        include postgres::munin
-    }
-    if $use_shorewall {
-        include shorewall::rules::postgres
-    }
+  case $operatingsystem {
+    default: { include postgres::base }
+  }
+  if $use_munin {
+    include postgres::munin
+  }
+  if $use_shorewall {
+    include shorewall::rules::postgres
+  }
 }
