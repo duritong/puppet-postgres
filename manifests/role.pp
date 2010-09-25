@@ -3,6 +3,7 @@ define postgres::role(
   $options = '',
   $password = false
 ) {
+  require ::postgres
   $passtext = $password ? {
     false => "",
     default => "ENCRYPTED PASSWORD '$password'"

@@ -2,6 +2,7 @@ define postgres::database(
   $ensure,
   $owner = false
 ){
+  require ::postgres
   $ownerstring = $owner ? {
     false => "",
     default => "-O $owner"
