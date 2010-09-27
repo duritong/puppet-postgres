@@ -1,5 +1,5 @@
 define postgres::database(
-  $ensure,
+  $ensure = 'present',
   $owner = false
 ){
   require ::postgres
