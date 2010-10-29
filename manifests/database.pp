@@ -22,7 +22,7 @@ define postgres::database(
         command => "/usr/bin/createdb $ownerstring $encodingstring $name",
         user => "postgres",
         unless => "/usr/bin/psql -l | grep '$name  *|'",
-        require => Service['postgresl'],
+        require => Service['postgresql'],
       }
     }
     absent:  {
@@ -30,7 +30,7 @@ define postgres::database(
         command => "/usr/bin/dropdb $name",
         onlyif => "/usr/bin/psql -l | grep '$name  *|'",
         user => "postgres",
-        require => Service['postgresl'],
+        require => Service['postgresql'],
       }
     }
     default: {
