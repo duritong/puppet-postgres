@@ -23,7 +23,7 @@ define postgres::role(
       exec { "Remove $name postgres role":
         command => "/usr/bin/dropeuser $name",
         user => "postgres",
-        onlyif => "/usr/bin/psql -c '\\du' | grep '$name  *|'"
+        onlyif => "/usr/bin/psql -c '\\du' | grep '$name  *|'",
         require => Service['postgresl'],
       }
     }
