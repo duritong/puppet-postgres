@@ -16,7 +16,8 @@ define postgres::default_database(
       postgres::role{
         $owner:
           password => $password,
-          ensure => $ensure;
+          ensure => $ensure,
+          before => Postgres::Database[$name];
       }
     }
   }
@@ -24,13 +25,5 @@ define postgres::default_database(
     $name:
       ensure => $ensure,
       owner => $owner;
-  }
-  case $password {
-    'absent': {}
-    default: {
-      Postgres::Database[$name] {
-        require => Postgres::Role[$owner]
-      }
-    }
   }
 }
