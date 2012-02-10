@@ -8,33 +8,33 @@ define postgres::database(
 
   $ownerstring = $owner ? {
     false => "",
-    default => "-O $owner"
+    default => "-O ${owner}"
   }
 
   $encodingstring = $encoding ? {
     'absent' => "",
-    default => "-E $encoding"
+    default => "-E ${encoding}"
   }
 
   case $ensure {
     present: {
-      exec { "Create $name postgres db":
-        command => "/usr/bin/createdb $ownerstring $encodingstring $name",
+      exec { "create_${name}_postgres_db":
+        command => "/usr/bin/createdb ${ownerstring} ${encodingstring} ${name}",
         user => "postgres",
-        unless => "/usr/bin/psql -l | grep '$name  *|'",
+        unless => "/usr/bin/psql -l | grep '${name}  *|'",
         require => Service['postgresql'],
       }
     }
     absent:  {
-      exec { "Remove $name postgres db":
-        command => "/usr/bin/dropdb $name",
-        onlyif => "/usr/bin/psql -l | grep '$name  *|'",
+      exec { "remove_${name}_postgres_db":
+        command => "/usr/bin/dropdb ${name}",
+        onlyif => "/usr/bin/psql -l | grep '${name}  *|'",
         user => "postgres",
         require => Service['postgresql'],
       }
     }
     default: {
-      fail "Invalid 'ensure' value '$ensure' for postgres::database"
+      fail("Invalid 'ensure' value '${ensure}' for postgres::database")
     }
   }
 }

@@ -1,5 +1,5 @@
 class postgres::disable {
-  case $operatingsystem {
+  case $::operatingsystem {
     centos: { include postgres::centos::disable }
     default: { include postgres::base::disable }
   }

@@ -1,5 +1,5 @@
 define postgres::role(
-  $ensure = present, 
+  $ensure = present,
   $options = '',
   $password = false
 ) {
@@ -19,7 +19,7 @@ define postgres::role(
       exec { "Create $name postgres role":
         command => "/usr/bin/psql -c \"CREATE ROLE ${name} ${options} ${passtext} LOGIN\"",
         user => "postgres",
-        unless => "/usr/bin/psql -c '\\du' | grep '^  *$name'",
+        unless => "/usr/bin/psql -c '\\du' | grep '^  *${name}'",
         require => Service['postgresql'],
       }
     }
