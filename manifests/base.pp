@@ -1,4 +1,6 @@
 class postgres::base {
+  include postgres::client
+
   package { 'postgresql-server':
     ensure => present,
   }
