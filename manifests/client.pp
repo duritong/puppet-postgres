@@ -1,9 +1,8 @@
 class postgres::client {
-  include ruby::postgres
   package{'postgresql': 
     ensure => installed,
   }
-  if $use_shorewall {
+  if hiera('use_shorewall',false) {
     include shorewall::rules::out::postgres
   }
 }
