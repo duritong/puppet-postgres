@@ -9,7 +9,13 @@ class postgres::base {
     enable => true,
     ensure => running,
     hasstatus => true,
-    require => Package[postgresql-server],
+    require => Package['postgresql-server'],
+  }
+
+  exec{'service postgresql initdb':
+      unless => 'test -f /var/lib/pgsql/data/postgresql.conf',
+      require => Package['postgresql-server'],
+      before => File['/var/lib/pgsql/data/pg_hba.conf','/var/lib/pgsql/data/postgresql.conf'],
   }
 
   # wen want to be sure that this exists
@@ -31,26 +37,26 @@ class postgres::base {
 
   file{'/var/lib/pgsql/data/pg_hba.conf':
       source => [
-        "puppet:///modules/site-postgres/${fqdn}/pg_hba.conf",
+        "puppet:///modules/site-postgres/${::fqdn}/pg_hba.conf",
         "puppet:///modules/site-postgres/pg_hba.conf",
-        "puppet:///modules/postgres/config/pg_hba.conf.${operatingsystem}",
+        "puppet:///modules/postgres/config/pg_hba.conf.${::operatingsystem}",
         "puppet:///modules/postgres/config/pg_hba.conf"
       ],
       ensure => file,
-      require => Package[postgresql-server],
-      notify => Service[postgresql],
+      require => Package['postgresql-server'],
+      notify => Service['postgresql'],
       owner => postgres, group => postgres, mode => 0600;
   }
   file{'/var/lib/pgsql/data/postgresql.conf':
       source => [
-        "puppet:///modules/site-postgres/${fqdn}/postgresql.conf",
+        "puppet:///modules/site-postgres/${::fqdn}/postgresql.conf",
         "puppet:///modules/site-postgres/postgresql.conf",
-        "puppet:///modules/postgres/config/postgresql.conf.${operatingsystem}",
+        "puppet:///modules/postgres/config/postgresql.conf.${::operatingsystem}",
         "puppet:///modules/postgres/config/postgresql.conf"
       ],
       ensure => file,
-      require => Package[postgresql-server],
-      notify => Service[postgresql],
+      require => Package['postgresql-server'],
+      notify => Service['postgresql'],
       owner => postgres, group => postgres, mode => 0600;
   }
 }
