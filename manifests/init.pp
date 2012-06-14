@@ -17,8 +17,8 @@
 #
 
 class postgres(
-  $manage_munin = false,
-  $manage_shorewall = false
+  $manage_munin     = false,
+  $manage_shorewall = false 
 ) {
   case $::operatingsystem {
     default: { include postgres::base }
