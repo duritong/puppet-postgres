@@ -16,14 +16,17 @@
 # http://github.com/lak/puppet-postgres/tree/master
 #
 
-class postgres {
+class postgres (
+  $manage_munin     = false,
+  $manage_shorewall = false 
+) {
   case $::operatingsystem {
     default: { include postgres::base }
   }
-  if hiera('use_munin',false) {
+  if $postgres::manage_munin {
     include postgres::munin
   }
-  if hiera('use_shorewall',false) {
+  if $postgres::manage_shorewall {
     include shorewall::rules::postgres
   }
 }
