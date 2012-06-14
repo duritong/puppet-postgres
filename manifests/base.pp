@@ -1,5 +1,7 @@
 class postgres::base {
-  include postgres::client
+  class{'postgres::client':
+    manage_shorewall => $postgres::manage_shorewall
+  }
 
   package { 'postgresql-server':
     ensure => present,

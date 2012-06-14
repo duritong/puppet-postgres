@@ -1,8 +1,10 @@
-class postgres::client {
+class postgres::client(
+  $manage_shorewall = false
+) {
   package{'postgresql': 
     ensure => installed,
   }
-  if hiera('use_shorewall',false) {
+  if $manage_shorewall {
     include shorewall::rules::out::postgres
   }
 }

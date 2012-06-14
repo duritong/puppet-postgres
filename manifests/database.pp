@@ -3,9 +3,6 @@ define postgres::database(
   $owner = false,
   $encoding = 'absent'
 ){
-  require ::postgres
-  require ::postgres::client
-
   $ownerstring = $owner ? {
     false => "",
     default => "-O ${owner}"
