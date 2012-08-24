@@ -21,23 +21,19 @@ class postgres::base {
   }
 
   # wen want to be sure that this exists
-  file{'/var/lib/pgsql/backups':
-    ensure => directory,
-    require => Package['postgresql-server'],
-    owner => postgres, group => postgres, mode => 0700;
-  }
-
-  file{'/etc/cron.d/pgsql_backup.cron':
-    source => "puppet:///modules/postgres/backup/pgsql_backup.cron",
-    require => File['/var/lib/pgsql/backups'],
-    owner => root, group => 0, mode => 0600;
-  }
-  file{'/etc/cron.d/pgsql_vacuum.cron':
-    source => "puppet:///modules/postgres/maintenance/pgsql_vacuum.cron",
-    owner => root, group => 0, mode => 0600;
-  }
-
-  file{'/var/lib/pgsql/data/pg_hba.conf':
+  file{
+    '/var/lib/pgsql/backups':
+      ensure => directory,
+      require => Package['postgresql-server'],
+      owner => postgres, group => postgres, mode => 0700;
+    '/etc/cron.d/pgsql_backup.cron':
+      source => "puppet:///modules/postgres/backup/pgsql_backup.cron",
+      require => File['/var/lib/pgsql/backups'],
+      owner => root, group => 0, mode => 0600;
+    '/etc/cron.d/pgsql_vacuum.cron':
+      source => "puppet:///modules/postgres/maintenance/pgsql_vacuum.cron",
+      owner => root, group => 0, mode => 0600;
+    '/var/lib/pgsql/data/pg_hba.conf':
       source => [
         "puppet:///modules/site_postgres/${::fqdn}/pg_hba.conf",
         "puppet:///modules/site_postgres/pg_hba.conf",
@@ -48,8 +44,7 @@ class postgres::base {
       require => Package['postgresql-server'],
       notify => Service['postgresql'],
       owner => postgres, group => postgres, mode => 0600;
-  }
-  file{'/var/lib/pgsql/data/postgresql.conf':
+    '/var/lib/pgsql/data/postgresql.conf':
       source => [
         "puppet:///modules/site_postgres/${::fqdn}/postgresql.conf",
         "puppet:///modules/site_postgres/postgresql.conf",
@@ -60,5 +55,8 @@ class postgres::base {
       require => Package['postgresql-server'],
       notify => Service['postgresql'],
       owner => postgres, group => postgres, mode => 0600;
+    '/usr/local/bin/readonly_for_pgsql.sh':
+      source => 'puppet:///modules/postgres/maintenance/readonly_for_pgsql.sh',
+      owner => postgres, group => postgres, mode => 0500;
   }
 }
