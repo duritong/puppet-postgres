@@ -34,6 +34,7 @@ class postgres::base {
     mode    => '0600';
   '/etc/cron.d/pgsql_vacuum.cron':
     source  => 'puppet:///modules/postgres/maintenance/pgsql_vacuum.cron',
+    require => Service['postgresql'],
     owner   => root,
     group   => 0,
     mode    => '0600';
@@ -63,6 +64,7 @@ class postgres::base {
     mode    => '0600';
   '/usr/local/bin/readonly_for_pgsql.sh':
     source  => 'puppet:///modules/postgres/maintenance/readonly_for_pgsql.sh',
+    require => Package['postgresql-server'],
     owner   => postgres,
     group   => postgres,
     mode    => '0500';
