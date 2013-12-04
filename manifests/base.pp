@@ -46,6 +46,7 @@ class postgres::base {
   '/var/lib/pgsql/data/postgresql.conf':
     source  => [
       "puppet:///modules/site_postgres/${::fqdn}/postgresql.conf",
+      "puppet:///modules/site_postgres/postgresql.conf.${::operatingsystem}.${::operatingsystemmajrelease}",
       'puppet:///modules/site_postgres/postgresql.conf',
       "puppet:///modules/postgres/config/postgresql.conf.${::operatingsystem}",
       'puppet:///modules/postgres/config/postgresql.conf'
