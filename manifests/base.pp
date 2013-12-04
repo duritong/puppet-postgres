@@ -15,20 +15,13 @@ class postgres::base {
   exec{'service postgresql initdb':
     unless  => 'test -f /var/lib/pgsql/data/postgresql.conf',
     require => Package['postgresql-server'],
-    before  => File['/var/lib/pgsql/data/pg_hba.conf','/var/lib/pgsql/data/postgresql.conf'],
+    before  => File['/var/lib/pgsql/data/pg_hba.conf',
+      '/var/lib/pgsql/data/postgresql.conf'],
   }
 
-  # wen want to be sure that this exists
   file{
-  '/var/lib/pgsql/backups':
-    ensure  => directory,
-    require => Package['postgresql-server'],
-    owner   => postgres,
-    group   => postgres,
-    mode    => '0700';
   '/etc/cron.d/pgsql_backup.cron':
     source  => 'puppet:///modules/postgres/backup/pgsql_backup.cron',
-    require => File['/var/lib/pgsql/backups'],
     owner   => root,
     group   => 0,
     mode    => '0600';
