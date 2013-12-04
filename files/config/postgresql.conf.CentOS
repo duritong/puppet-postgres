@@ -211,7 +211,7 @@
 					# depending on platform.
 
 # This is used when logging to stderr:
-redirect_stderr = on			# Enable capturing of stderr into log 
+logging_collector = on			# Enable capturing of stderr into log 
 					# files
 
 # These are only used if redirect_stderr is on:
@@ -328,10 +328,8 @@ log_rotation_size = 0			# Automatic rotation of logfiles will
 #log_statement_stats = off
 
 # - Query/Index Statistics Collector -
-
-#stats_start_collector = on
-#stats_command_string = off
-#stats_block_level = off
+#track_activities = off
+#track_counts = off
 #stats_row_level = off
 #stats_reset_on_server_start = off
 
