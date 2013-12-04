@@ -34,6 +34,7 @@ class postgres::base {
   '/var/lib/pgsql/data/pg_hba.conf':
     source  => [
       "puppet:///modules/site_postgres/${::fqdn}/pg_hba.conf",
+      "puppet:///modules/site_postgres/pg_hba.conf.${::operatingsystem}.${::operatingsystemmajrelease}",
       'puppet:///modules/site_postgres/pg_hba.conf',
       "puppet:///modules/postgres/config/pg_hba.conf.${::operatingsystem}",
       'puppet:///modules/postgres/config/pg_hba.conf'
