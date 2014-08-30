@@ -20,12 +20,12 @@ class postgres::base {
   }
 
   file{
-  '/etc/cron.d/pgsql_backup.cron':
+  '/etc/cron.d/pgsql_backup':
     source  => 'puppet:///modules/postgres/backup/pgsql_backup.cron',
     owner   => root,
     group   => 0,
     mode    => '0600';
-  '/etc/cron.d/pgsql_vacuum.cron':
+  '/etc/cron.d/pgsql_vacuum':
     source  => 'puppet:///modules/postgres/maintenance/pgsql_vacuum.cron',
     require => Service['postgresql'],
     owner   => root,
