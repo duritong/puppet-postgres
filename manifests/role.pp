@@ -17,7 +17,7 @@ define postgres::role(
     present: {
       # The createuser command always prompts for the password.
       exec { "Create $name postgres role":
-        command => "/usr/bin/psql -c \"CREATE ROLE ${name} ${options} ${passtext} LOGIN\"",
+        command => "/usr/bin/psql -c \"CREATE ROLE \\\"${name}\\\" ${options} ${passtext} LOGIN\"",
         user => "postgres",
         unless => "/usr/bin/psql -c '\\du' | grep '^  *${name}'",
         require => Service['postgresql'],
