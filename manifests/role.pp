@@ -1,34 +1,36 @@
+# manages a postgres role
 define postgres::role(
-  $ensure = present,
-  $options = '',
+  $ensure   = present,
+  $options  = '',
   $password = false
 ) {
   require ::postgres
   require ::postgres::client
   $real_password = $password ? {
     'trocla' => trocla("postgres_${name}",'pgsql',"username: ${name}"),
-    default => $password,
+    default  => $password,
   }
   $passtext = $real_password ? {
-    false => "",
+    false   => '',
     default => "ENCRYPTED PASSWORD '${real_password}'"
+  }
+  exec{"Manage ${name} postgres role":
+    user    => 'postgres',
+    require => Service['postgresql'],
   }
   case $ensure {
     present: {
       # The createuser command always prompts for the password.
-      exec { "Create $name postgres role":
-        command => "/usr/bin/psql -c \"CREATE ROLE \\\"${name}\\\" ${options} ${passtext} LOGIN\"",
-        user => "postgres",
-        unless => "/usr/bin/psql -c '\\du' | grep '^  *${name}'",
-        require => Service['postgresql'],
+      Exec["Manage ${name} postgres role"]{
+        command => "/usr/bin/psql -c \
+\"CREATE ROLE \\\"${name}\\\" ${options} ${passtext} LOGIN\"",
+        unless  => "/usr/bin/psql -c '\\du' | grep '^  *${name}'",
       }
     }
     absent:  {
-      exec { "Remove ${name} postgres role":
+      Exec["Manage ${name} postgres role"]{
         command => "/usr/bin/dropuser ${name}",
-        user => "postgres",
-        onlyif => "/usr/bin/psql -c '\\du' | grep '${name}  *|'",
-        require => Service['postgresql'],
+        onlyif  => "/usr/bin/psql -c '\\du' | grep '${name}  *|'",
       }
     }
     default: {
