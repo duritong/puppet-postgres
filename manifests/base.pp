@@ -36,6 +36,7 @@ class postgres::base {
       "puppet:///modules/site_postgres/${::fqdn}/pg_hba.conf",
       "puppet:///modules/site_postgres/pg_hba.conf.${::operatingsystem}.${::operatingsystemmajrelease}",
       'puppet:///modules/site_postgres/pg_hba.conf',
+      "puppet:///modules/postgres/config/pg_hba.conf.${::operatingsystem}.${::operatingsystemmajrelease}",
       "puppet:///modules/postgres/config/pg_hba.conf.${::operatingsystem}",
       'puppet:///modules/postgres/config/pg_hba.conf'
     ],
@@ -49,6 +50,7 @@ class postgres::base {
       "puppet:///modules/site_postgres/${::fqdn}/postgresql.conf",
       "puppet:///modules/site_postgres/postgresql.conf.${::operatingsystem}.${::operatingsystemmajrelease}",
       'puppet:///modules/site_postgres/postgresql.conf',
+      "puppet:///modules/postgres/postgresql.conf.${::operatingsystem}.${::operatingsystemmajrelease}",
       "puppet:///modules/postgres/config/postgresql.conf.${::operatingsystem}",
       'puppet:///modules/postgres/config/postgresql.conf'
     ],
